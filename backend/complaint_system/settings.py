@@ -28,6 +28,9 @@ ALLOWED_HOSTS = ['*']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CORS_ALLOWED_ORIGINS = [
+    "https://complaint-system-be-production.up.railway.app/",
+]
 
 
 
