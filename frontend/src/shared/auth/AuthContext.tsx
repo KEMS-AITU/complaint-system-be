@@ -1,11 +1,15 @@
 import React, { createContext, useContext, useEffect } from 'react';
 import { apiRequest } from '../api/http';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { getProfile } from '../../features/account/accountApi';
 
 type AuthContextValue = {
   token: string;
   isAdmin: boolean;
   userIdentifier: string;
+  userName: string;
+  userEmail: string;
+  userId: string;
   setToken: (token: string) => void;
   setUserIdentifier: (value: string) => void;
   clearToken: () => void;
@@ -20,6 +24,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     'complaint_user_identifier',
     ''
   );
+  const [userName, setUserName] = useLocalStorage('complaint_user_name', '');
+  const [userEmail, setUserEmail] = useLocalStorage('complaint_user_email', '');
+  const [userId, setUserId] = useLocalStorage('complaint_user_id', '');
   const isAdmin = isAdminValue === 'true';
 
   const setToken = (value: string) => setTokenValue(value);
@@ -28,11 +35,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTokenValue('');
     setIsAdminValue('false');
     setUserIdentifierValue('');
+    setUserName('');
+    setUserEmail('');
+    setUserId('');
   };
 
   useEffect(() => {
     if (!token) {
       setIsAdminValue('false');
+      setUserName('');
+      setUserEmail('');
+      setUserId('');
       return;
     }
 
@@ -50,8 +63,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, [token, setIsAdminValue]);
 
+  useEffect(() => {
+    if (!token) return;
+    let active = true;
+    const loadProfile = async () => {
+      const result = await getProfile(token);
+      if (!active) return;
+      if (!result.ok || !result.data) return;
+      const name = `${result.data.first_name ?? ''} ${result.data.last_name ?? ''}`.trim();
+      setUserName(name || result.data.username || '');
+      setUserEmail(result.data.email || '');
+      setUserId(result.data.id ? String(result.data.id) : '');
+    };
+    loadProfile();
+    return () => {
+      active = false;
+    };
+  }, [token, setUserName, setUserEmail, setUserId]);
+
   return (
-    <AuthContext.Provider value={{ token, isAdmin, userIdentifier, setToken, setUserIdentifier, clearToken }}>
+    <AuthContext.Provider
+      value={{
+        token,
+        isAdmin,
+        userIdentifier,
+        userName,
+        userEmail,
+        userId,
+        setToken,
+        setUserIdentifier,
+        clearToken,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

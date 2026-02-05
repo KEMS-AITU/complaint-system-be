@@ -58,9 +58,9 @@ export const ComplaintCreateForm = () => {
     const result = await createComplaint(payload, token);
 
     if (result.ok && result.data) {
-      navigate(`/complaints?highlight=${result.data.id}`, {
+      navigate(`/my-complaints?highlight=${result.data.id}`, {
         replace: true,
-        state: { flash: t('create.flash.success') },
+        state: { created: true },
       });
       return;
     }

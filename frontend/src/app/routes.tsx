@@ -11,7 +11,7 @@ import { RequireAuth } from './RequireAuth';
 export const routes: RouteObject[] = [
   { index: true, element: <RequireAuth><HomePage /></RequireAuth> },
   { path: 'create', element: <RequireAuth><CreateComplaintPage /></RequireAuth> },
-  { path: 'complaints', element: <RequireAuth><MyComplaintsPage /></RequireAuth> },
+  { path: 'my-complaints', element: <RequireAuth><MyComplaintsPage /></RequireAuth> },
   { path: 'complaints/:id', element: <RequireAuth><ComplaintDetailPage /></RequireAuth> },
   { path: 'track', element: <RequireAuth><TrackComplaintPage /></RequireAuth> },
   { path: 'feedback', element: <RequireAuth><FeedbackPage /></RequireAuth> },

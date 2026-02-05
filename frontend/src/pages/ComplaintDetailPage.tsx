@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getComplaint } from '../shared/api/complaints';
 import type { Complaint } from '../shared/types';
 import { useAuth } from '../shared/auth/AuthContext';
 import { Badge } from '../shared/ui/Badge';
+import { Button } from '../shared/ui/Button';
 import { Card } from '../shared/ui/Card';
 import { Notice } from '../shared/ui/Notice';
 import { Section } from '../shared/ui/Section';
@@ -44,6 +45,7 @@ const statusVariant = (status: string) => {
 export const ComplaintDetailPage = () => {
   const { token } = useAuth();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [complaint, setComplaint] = useState<Complaint | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -78,9 +80,9 @@ export const ComplaintDetailPage = () => {
     <div className="stack">
       <Section title="Complaint details" description="Track the status and details below.">
         <div className="stack">
-          <Link className="muted" to="/complaints">
+          <Button type="button" onClick={() => navigate('/my-complaints')}>
             Back to my complaints
-          </Link>
+          </Button>
           {loading ? <Notice tone="info">Loading complaint...</Notice> : null}
           {error ? <Notice tone="warning">{error}</Notice> : null}
           {complaint ? (
