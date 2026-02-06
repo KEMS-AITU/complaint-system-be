@@ -140,3 +140,12 @@ def register(request):
             return Response({"error": str(e)}, status=500)
     else:
         return Response(serializer.errors, status=400)
+
+def create_admin(request):
+    if not User.objects.filter(username="admin").exists():
+        User.objects.create_superuser(
+            username="mans",
+            email="mans@astanait.edu.kz",
+            password="12345678"
+        )
+    return HttpResponse("Superuser created")
