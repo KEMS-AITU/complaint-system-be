@@ -21,6 +21,7 @@ const statusLabel = (status: string) => {
     case 'RESOLVED':
       return 'Resolved';
     case 'CLOSED':
+      return 'Closed';
     case 'REJECTED':
       return 'Rejected';
     default:
@@ -31,6 +32,8 @@ const statusLabel = (status: string) => {
 const statusVariant = (status: string) => {
   switch (statusLabel(status)) {
     case 'Resolved':
+      return 'success';
+    case 'Closed':
       return 'success';
     case 'Rejected':
       return 'warning';

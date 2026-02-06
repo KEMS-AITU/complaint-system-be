@@ -28,6 +28,7 @@ const STATUS_OPTIONS = [
   { value: 'In review', label: 'In review' },
   { value: 'In progress', label: 'In progress' },
   { value: 'Resolved', label: 'Resolved' },
+  { value: 'Closed', label: 'Closed' },
   { value: 'Rejected', label: 'Rejected' },
 ];
 
@@ -43,6 +44,7 @@ const toStatusLabel = (status: string) => {
     case 'RESOLVED':
       return 'Resolved';
     case 'CLOSED':
+      return 'Closed';
     case 'REJECTED':
       return 'Rejected';
     case 'DRAFT':
