@@ -9,7 +9,7 @@ import { Input } from '../../shared/ui/Input';
 import { Notice } from '../../shared/ui/Notice';
 import { Select } from '../../shared/ui/Select';
 
-const statuses: ComplaintStatus[] = ['NEW', 'IN_PROGRESS', 'RESOLVED', 'CLOSED'];
+const statuses: ComplaintStatus[] = ['NEW', 'IN_PROGRESS', 'RESOLVED', 'ACCEPTED', 'REJECTED', 'CLOSED'];
 
 export const ComplaintStatusForm = () => {
   const { token } = useAuth();

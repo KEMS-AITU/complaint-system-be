@@ -11,7 +11,7 @@ import { Notice } from '../shared/ui/Notice';
 import { Section } from '../shared/ui/Section';
 import { Select } from '../shared/ui/Select';
 
-type ComplaintStatus = 'Submitted' | 'In review' | 'Resolved' | 'Rejected' | 'Draft' | string;
+type ComplaintStatus = 'Submitted' | 'In review' | 'Resolved' | 'Accepted' | 'Rejected' | 'Draft' | string;
 
 interface Complaint {
   id: number | string;
@@ -28,6 +28,7 @@ const STATUS_OPTIONS = [
   { value: 'In review', label: 'In review' },
   { value: 'In progress', label: 'In progress' },
   { value: 'Resolved', label: 'Resolved' },
+  { value: 'Accepted', label: 'Accepted' },
   { value: 'Closed', label: 'Closed' },
   { value: 'Rejected', label: 'Rejected' },
 ];
@@ -43,6 +44,8 @@ const toStatusLabel = (status: string) => {
       return 'In progress';
     case 'RESOLVED':
       return 'Resolved';
+    case 'ACCEPTED':
+      return 'Accepted';
     case 'CLOSED':
       return 'Closed';
     case 'REJECTED':
@@ -66,6 +69,9 @@ const normalizeComplaint = (complaint: ApiComplaint): Complaint => ({
 const getStatusBadgeStyle = (status: string) => {
   const normalized = status.toLowerCase();
   if (normalized.includes('resolved') || normalized.includes('completed')) {
+    return { color: '#12B886', backgroundColor: 'rgba(18, 184, 134, 0.10)' };
+  }
+  if (normalized.includes('accepted')) {
     return { color: '#12B886', backgroundColor: 'rgba(18, 184, 134, 0.10)' };
   }
   if (normalized.includes('rejected')) {

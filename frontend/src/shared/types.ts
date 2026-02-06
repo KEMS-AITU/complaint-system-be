@@ -2,6 +2,7 @@ export type ComplaintStatus =
   | 'NEW'
   | 'IN_PROGRESS'
   | 'RESOLVED'
+  | 'ACCEPTED'
   | 'CLOSED'
   | 'SUBMITTED'
   | 'IN_REVIEW'

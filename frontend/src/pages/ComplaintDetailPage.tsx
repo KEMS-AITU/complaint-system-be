@@ -20,6 +20,8 @@ const statusLabel = (status: string) => {
       return 'In progress';
     case 'RESOLVED':
       return 'Resolved';
+    case 'ACCEPTED':
+      return 'Accepted';
     case 'CLOSED':
       return 'Closed';
     case 'REJECTED':
@@ -32,6 +34,8 @@ const statusLabel = (status: string) => {
 const statusVariant = (status: string) => {
   switch (statusLabel(status)) {
     case 'Resolved':
+      return 'success';
+    case 'Accepted':
       return 'success';
     case 'Closed':
       return 'success';

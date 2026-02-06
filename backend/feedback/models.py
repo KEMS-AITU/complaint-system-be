@@ -24,6 +24,8 @@ class Complaint(models.Model):
         ('NEW', 'New'),
         ('IN_PROGRESS', 'In progress'),
         ('RESOLVED', 'Resolved'),
+        ('ACCEPTED', 'Accepted'),
+        ('REJECTED', 'Rejected'),
         ('CLOSED', 'Closed'),
     )
 
