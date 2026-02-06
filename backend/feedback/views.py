@@ -132,7 +132,11 @@ class AdminResponseCreateView(generics.CreateAPIView):
 def register(request):
     serializer = UserRegisterSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({"message": "User created"}, status=status.HTTP_201_CREATED)
+        try:
+            serializer.save()
+            return Response({"message": "User created"}, status=201)
+        except Exception as e:
+            # Вернём реальную ошибку в ответ (только для debug)
+            return Response({"error": str(e)}, status=500)
     else:
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=400)
