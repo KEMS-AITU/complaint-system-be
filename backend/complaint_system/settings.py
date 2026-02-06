@@ -78,15 +78,20 @@ WSGI_APPLICATION = 'complaint_system.wsgi.application'
 db_url = os.getenv('DATABASE_URL')
 
 
-
-DATABASES = {
-    'default': dj_database_url.config(
-        # Если DATABASE_URL нет (например, локально), используем SQLite
-        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3'),
-        conn_max_age=600,
-        ssl_require=True if os.getenv('DATABASE_URL') else False
-    )
-}
+db_from_env = dj_database_url.config(conn_max_age=600, ssl_require=True)
+if db_from_env:
+    # Если мы на Railway и переменная DATABASE_URL подтянулась
+    DATABASES = {
+        'default': db_from_env
+    }
+else:
+    # Если переменной нет (локальная разработка)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 AUTH_PASSWORD_VALIDATORS = [
