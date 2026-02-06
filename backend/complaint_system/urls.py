@@ -22,9 +22,9 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('feedback.urls')),
-    path('api/auth/token/', obtain_auth_token),
-    path('api/auth/login/', obtain_auth_token),
+    path('', include('feedback.urls')),
+    path('auth/token/', obtain_auth_token),
+    path('auth/login/', obtain_auth_token),
 ]
 
 if settings.DEBUG:
