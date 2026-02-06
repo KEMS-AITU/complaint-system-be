@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 import dj_database_url
 
@@ -76,18 +75,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'complaint_system.wsgi.application'
 
-RAILWAY_ENV = os.environ.get("RAILWAY_ENV", "development")
+db_url = os.getenv('DATABASE_URL')
 
 
 
-# Локальная база SQLite
-default_sqlite = {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
-}
-# На продакшн PostgreSQL через DATABASE_URL
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get("DATABASE_URL")) or default_sqlite
+    'default': dj_database_url.config(
+        # Если DATABASE_URL нет (например, локально), используем SQLite
+        default=os.getenv('DATABASE_URL', 'sqlite:///db.sqlite3'),
+        conn_max_age=600,
+        ssl_require=True if os.getenv('DATABASE_URL') else False
+    )
 }
 
 
